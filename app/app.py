@@ -66,12 +66,14 @@ class Msg():
 # cycle
 print("starting...")
 while True:
+    print("cycle..")
     # do stuff
     try:
         hooks = [Hook(hook_id, hook_token, int(day), announced_today) for hook_id, hook_token, day, announced_today
                  in query_db("SELECT hook_id, token, day, announced_today FROM announcer")]
         messages = [Msg(m) for m in query_db("SELECT msg FROM message")]
-
+        print("hooks: %s" % [str(_) for _ in hooks])
+        print("messages #: %s" % len(messages))
         for hook in hooks:
             d = datetime.datetime.now().day
             if hook.announced_today == 'yes' and d != hook.day:
