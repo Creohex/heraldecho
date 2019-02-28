@@ -53,7 +53,7 @@ class Hook():
 
     def announce(self, message):
         try:
-            requests.post(url=self.get_link(), params={}, json=message)
+            requests.post(url=self.get_link(), params={}, json={"content": message})
             query_db_commit("UPDATE announcer SET announced_today = 'yes' WHERE hook_id = '%s'" % self.hook_id)
 
         except Exception as e:
@@ -80,10 +80,9 @@ while True:
             elif hook.announced_today != 'yes' and d == hook.day:
                 rh = random.randint(10, 23)
                 rm = random.randint(0, 59)
-                h = datetime.datetime.now().hour
+                h = datetime.datetime.now().hour + 3
                 m = datetime.datetime.now().minute
                 diff = ((h - rh) * 60) + (m - rm)
-                print("trying to announce: %s %s (diff = %s)" % (rh, rm, diff))
                 if diff >= 0:
                     msg = messages[random.randint(0, len(messages) - 1)].message
                     hook.announce(msg)
