@@ -70,7 +70,7 @@ while True:
     # do stuff
     try:
         hooks = [Hook(hook_id, hook_token, int(day), announced_today) for hook_id, hook_token, day, announced_today
-                 in query_db("SELECT hook_id, token, day, announced_at, announced_today FROM announcer")]
+                 in query_db("SELECT hook_id, token, day, announce_at, announced_today FROM announcer")]
         messages = [Msg(m[0]) for m in query_db("SELECT msg FROM message")]
         for hook in hooks:
             d = datetime.datetime.now().day
