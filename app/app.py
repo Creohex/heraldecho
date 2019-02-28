@@ -55,6 +55,7 @@ class Hook():
         try:
             requests.post(url=self.get_link(), params={}, json=message)
             query_db_commit("UPDATE announcer SET announced_today = 'yes' WHERE hook_id = '%s'" % self.hook_id)
+
         except Exception as e:
             print("announce exception: %s" % str(e))
 
@@ -72,9 +73,11 @@ while True:
         messages = [Msg(m) for m in query_db("SELECT msg FROM message")]
 
         for hook in hooks:
-            if hook.announced_today == 'yes' and datetime.datetime.now().day != hook.day:
-                query_db_commit("UPDATE announcer SET announced_today = 'no' WHERE hook_id = '%s'" % hook.hook_id)
-            else:
+            d = datetime.datetime.now().day
+            if hook.announced_today == 'yes' and d != hook.day:
+                query_db_commit("UPDATE announcer SET day = %s, announced_today = 'no' WHERE hook_id = '%s'"
+                                % (d, hook.hook_id))
+            elif hook.announced_today != 'yes' and d == hook.day:
                 h = random.randint(10, 23)
                 m = random.randint(0, 59)
                 if datetime.datetime.now().hour >= h and datetime.datetime.now().minute >= m:
