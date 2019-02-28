@@ -70,14 +70,14 @@ while True:
     try:
         hooks = [Hook(hook_id, hook_token, int(day), announced_today) for hook_id, hook_token, day, announced_today
                  in query_db("SELECT hook_id, token, day, announced_today FROM announcer")]
-        messages = [Msg(m) for m in query_db("SELECT msg FROM message")]
+        messages = [Msg(m[0]) for m in query_db("SELECT msg FROM message")]
         for hook in hooks:
             d = datetime.datetime.now().day
             if d != hook.day:
                 print("resetting (%s)" % str(hook))
                 query_db_commit("UPDATE announcer SET day = %s, announced_today = 'no' WHERE hook_id = '%s'"
                                 % (d, hook.hook_id))
-            elif hook.announced_today != 'yes' and d == hook.day:
+            elif d == hook.day and hook.announced_today != 'yes':
                 rh = random.randint(10, 23)
                 rm = random.randint(0, 59)
                 h = datetime.datetime.now().hour + 3
