@@ -1,4 +1,4 @@
-import time, datetime, requests, re, json, pymysql, random
+import os, time, datetime, requests, re, json, pymysql, random
 
 # env variables:
 required_variables = [
