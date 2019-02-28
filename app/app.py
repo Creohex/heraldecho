@@ -71,7 +71,7 @@ print("starting...")
 while True:
     # do stuff
     try:
-        hooks = [Hook(hook_id, hook_token, int(day), announced_today)
+        hooks = [Hook(hook_id, hook_token, int(day), announce_at, announced_today)
                  for hook_id, hook_token, day, announce_at, announced_today
                  in query_db("SELECT hook_id, token, day, announce_at, announced_today FROM announcer")]
         messages = [Msg(m[0]) for m in query_db("SELECT msg FROM message")]
