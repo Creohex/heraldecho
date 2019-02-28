@@ -78,10 +78,13 @@ while True:
                 query_db_commit("UPDATE announcer SET day = %s, announced_today = 'no' WHERE hook_id = '%s'"
                                 % (d, hook.hook_id))
             elif hook.announced_today != 'yes' and d == hook.day:
-                h = random.randint(10, 23)
-                m = random.randint(0, 59)
-                print("trying to announce: %s %s" % (h, m))
-                if datetime.datetime.now().hour >= h and datetime.datetime.now().minute >= m:
+                rh = random.randint(10, 23)
+                rm = random.randint(0, 59)
+                h = datetime.datetime.now().hour
+                m = datetime.datetime.now().minute
+                diff = ((h - rh) * 60) + (m - rm)
+                print("trying to announce: %s %s (diff = %s)" % (rh, rm, diff))
+                if diff >= 0:
                     msg = messages[random.randint(0, len(messages) - 1)].message
                     hook.announce(msg)
     except Exception as e:
