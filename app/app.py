@@ -47,7 +47,8 @@ class Hook():
         self.announced_today = announced_today
 
     def __str__(self):
-        return "%s, %s, %s, %s, %s" % (self.hook_id, self.token_id, self.day, self.announce_at, self.announced_today)
+        return "%s, %s, %s, %s, %s" \
+               % (self.hook_id, self.token_id, self.day, self.announce_at, self.announced_today)
 
     def get_link(self):
         return "https://discordapp.com/api/webhooks/%s/%s" % (self.hook_id, self.token_id)
@@ -55,7 +56,8 @@ class Hook():
     def announce(self, message):
         try:
             requests.post(url=self.get_link(), params={}, json={"content": message})
-            query_db_commit("UPDATE announcer SET announced_today = 'yes' WHERE hook_id = '%s'" % self.hook_id)
+            query_db_commit("UPDATE announcer SET announced_today = 'yes' WHERE hook_id = '%s'"
+                            % self.hook_id)
 
         except Exception as e:
             print("announce exception: %s" % str(e))
@@ -69,7 +71,8 @@ print("starting...")
 while True:
     # do stuff
     try:
-        hooks = [Hook(hook_id, hook_token, int(day), announced_today) for hook_id, hook_token, day, announced_today
+        hooks = [Hook(hook_id, hook_token, int(day), announced_today)
+                 for hook_id, hook_token, day, announce_at, announced_today
                  in query_db("SELECT hook_id, token, day, announce_at, announced_today FROM announcer")]
         messages = [Msg(m[0]) for m in query_db("SELECT msg FROM message")]
         for hook in hooks:
