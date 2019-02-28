@@ -39,14 +39,15 @@ def query_db_commit(query):
 
 
 class Hook():
-    def __init__(self, hook_id, token_id, day, announced_today):
+    def __init__(self, hook_id, token_id, day, announce_at, announced_today):
         self.hook_id = hook_id
         self.token_id = token_id
         self.day = day
+        self.announce_at = [int(_) for _ in re.split(r'', announce_at)]
         self.announced_today = announced_today
 
     def __str__(self):
-        return "%s, %s, %s, %s" % (self.hook_id, self.token_id, self.day, self.announced_today)
+        return "%s, %s, %s, %s, %s" % (self.hook_id, self.token_id, self.day, self.announce_at, self.announced_today)
 
     def get_link(self):
         return "https://discordapp.com/api/webhooks/%s/%s" % (self.hook_id, self.token_id)
@@ -75,11 +76,15 @@ while True:
             d = datetime.datetime.now().day
             if d != hook.day:
                 print("resetting (%s)" % str(hook))
-                query_db_commit("UPDATE announcer SET day = %s, announced_today = 'no' WHERE hook_id = '%s'"
-                                % (d, hook.hook_id))
-            elif d == hook.day and hook.announced_today != 'yes':
                 rh = random.randint(10, 23)
                 rm = random.randint(0, 59)
+                query_db_commit("UPDATE announcer "
+                                "SET day = %s, announce_at = '%s', announced_today = 'no' "
+                                "WHERE hook_id = '%s'"
+                                % (d, ("%s %s" % (rh, rm)), hook.hook_id))
+            elif d == hook.day and hook.announced_today != 'yes':
+                rh = hook.announce_at[0]
+                rm = hook.announce_at[1]
                 h = datetime.datetime.now().hour + 3
                 m = datetime.datetime.now().minute
                 diff = ((h - rh) * 60) + (m - rm)

@@ -9,6 +9,7 @@ CREATE TABLE announcer(
   hook_id VARCHAR(255) NOT NULL,
   token VARCHAR(255) NOT NULL DEFAULT '',
   day INT NOT NULL DEFAULT 0,
+  announce_at VARCHAR(10) NOT NULL DEFAULT '21 31',
   announced_today VARCHAR(255) NOT NULL DEFAULT 'no',
 
   PRIMARY KEY (hook_id)
