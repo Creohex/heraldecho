@@ -14,7 +14,7 @@ db_host = os.environ['db_host']
 db_db = 'deeprock'
 db_user = os.environ['db_username']
 db_pass = os.environ['db_password']
-cycle_timeout = 2
+cycle_timeout = 10
 
 # functions:
 def db_connector():
@@ -75,11 +75,13 @@ while True:
         for hook in hooks:
             d = datetime.datetime.now().day
             if hook.announced_today == 'yes' and d != hook.day:
+                print("resetting (%s)" % str(hook))
                 query_db_commit("UPDATE announcer SET day = %s, announced_today = 'no' WHERE hook_id = '%s'"
                                 % (d, hook.hook_id))
             elif hook.announced_today != 'yes' and d == hook.day:
                 h = random.randint(10, 23)
                 m = random.randint(0, 59)
+                print("trying to announce: %s %s" % (h, m))
                 if datetime.datetime.now().hour >= h and datetime.datetime.now().minute >= m:
                     msg = messages[random.randint(0, len(messages) - 1)].message
                     hook.announce(msg)
