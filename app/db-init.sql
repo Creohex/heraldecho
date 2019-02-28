@@ -8,7 +8,7 @@ DROP TABLE IF EXISTS messages;
 CREATE TABLE announcer(
   hook_id VARCHAR(255) NOT NULL,
   token VARCHAR(255) NOT NULL DEFAULT '',
-  today INT NOT NULL DEFAULT 0,
+  day INT NOT NULL DEFAULT 0,
   announced_today VARCHAR(255) NOT NULL DEFAULT 'no',
 
   PRIMARY KEY (hook_id)

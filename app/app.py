@@ -45,6 +45,9 @@ class Hook():
         self.day = day
         self.announced_today = announced_today
 
+    def __str__(self):
+        return "%s, %s, %s, %s" % (self.hook_id, self.token_id, self.day, self.announced_today)
+
     def get_link(self):
         return "https://discordapp.com/api/webhooks/%s/%s" % (self.hook_id, self.token_id)
 
@@ -60,6 +63,7 @@ class Msg():
         self.message = m
 
 # cycle
+print("starting...")
 while True:
     # do stuff
     try:
@@ -74,7 +78,7 @@ while True:
                 h = random.randint(10, 23)
                 m = random.randint(0, 59)
                 if datetime.datetime.now().hour >= h and datetime.datetime.now().minute >= m:
-                    msg = messages[random.randint(0, len(messages) - 1)]
+                    msg = messages[random.randint(0, len(messages) - 1)].message
                     hook.announce(msg)
     except Exception as e:
         print("Exception: %s" % str(e))
