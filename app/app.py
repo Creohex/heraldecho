@@ -43,7 +43,7 @@ class Hook():
         self.hook_id = hook_id
         self.token_id = token_id
         self.day = day
-        self.announce_at = [int(_) for _ in re.split(r'', announce_at)]
+        self.announce_at = [int(_) for _ in re.split(r' ', announce_at)]
         self.announced_today = announced_today
 
     def __str__(self):
@@ -78,8 +78,7 @@ while True:
         for hook in hooks:
             d = datetime.datetime.now().day
             if d != hook.day:
-                print("resetting (%s)" % str(hook))
-                rh = random.randint(10, 23)
+                rh = random.randint(18, 23)
                 rm = random.randint(0, 59)
                 query_db_commit("UPDATE announcer "
                                 "SET day = %s, announce_at = '%s', announced_today = 'no' "
