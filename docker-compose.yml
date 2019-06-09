@@ -1,0 +1,42 @@
+version: '3.1'
+services:
+
+  airflow-server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - db-init
+    environment:
+      - PGHOST=db
+      - PGUSER=docker
+      - PGPORT=5432
+      - PGPASSWORD=password
+      - PGDATABASE=deeprock
+    entrypoint: ["bash", "start_server.sh"]
+
+  db-init:
+    image: boxfuse/flyway:5.2.4
+    depends_on:
+       - db
+    environment:
+      - PGUSER=docker
+      - PGPASSWORD=password
+      - PGDATABASE=deeprock
+    volumes:
+      - ./db/migrations:/opt/migrations
+      - ./db/scripts:/opt/scripts
+    entrypoint: ["bash", "/opt/scripts/migrate.sh", "-wait", 
+                 "tcp://localhost:5432", "-timeout", "15s", 
+                 "--", "flyway"]
+
+  db:
+    image: postgres:9.6
+    environment:
+      - POSTGRES_USER=docker
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=deeprock
+    ports:
+      - 5432:5432
+    volumes:
+      - ./db/data:/var/lib/postgresql/data
