@@ -1,4 +1,14 @@
-*.env
+# vscode
+.vscode/*
+
+# db_stuff
+/db/data/*
+
+# env file
+/*.env
+
+# mac stuff
+.DS_Store
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
