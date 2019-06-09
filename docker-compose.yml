@@ -9,10 +9,11 @@ services:
       - db-init
     environment:
       - PGHOST=db
-      - PGUSER=docker
-      - PGPORT=5432
-      - PGPASSWORD=password
-      - PGDATABASE=deeprock
+      - PGUSER=${PGUSER}
+      - PGPORT=${PGPORT}
+      - PGPASSWORD=${PGPASSWORD}
+      - PGDATABASE=${PGDATABASE}
+      - DEBUG=${DEBUG}
     entrypoint: ["bash", "start_server.sh"]
 
   db-init:
@@ -20,9 +21,9 @@ services:
     depends_on:
        - db
     environment:
-      - PGUSER=docker
-      - PGPASSWORD=password
-      - PGDATABASE=deeprock
+      - PGUSER=${PGUSER}
+      - PGPASSWORD=${PGPASSWORD}
+      - PGDATABASE=${PGDATABASE}
     volumes:
       - ./db/migrations:/opt/migrations
       - ./db/scripts:/opt/scripts
@@ -33,9 +34,9 @@ services:
   db:
     image: postgres:9.6
     environment:
-      - POSTGRES_USER=docker
-      - POSTGRES_PASSWORD=password
-      - POSTGRES_DB=deeprock
+      - POSTGRES_USER=${PGUSER}
+      - POSTGRES_PASSWORD=${PGPASSWORD}
+      - POSTGRES_DB=${PGHOST}
     ports:
       - 5432:5432
     volumes:
