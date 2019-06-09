@@ -1,6 +1,5 @@
-PGHOST=
-PGUSER=
-PGPORT=
-PGPASSWORD=
-PGDATABASE=
-DEBUG=false
+echo "PGUSER=" > ./.env
+echo "PGPORT=" > ./.env
+echo "PGPASSWORD=" > ./.env
+echo "PGDATABASE=" > ./.env
+echo "DEBUG=false" > ./.env
