@@ -1,8 +1,8 @@
-import common, time
+import app, time
 
 while True:
     try:
-        common.get_connection()
+        app.get_connection()
         print("successfully connected to DB")
         break
     except:
