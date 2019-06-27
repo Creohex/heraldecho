@@ -27,8 +27,8 @@ services:
     volumes:
       - ./db/migrations:/opt/migrations
       - ./db/scripts:/opt/scripts
-    entrypoint: ["bash", "/opt/scripts/migrate.sh", "-wait", 
-                 "tcp://localhost:5432", "-timeout", "15s", 
+    entrypoint: ["bash", "/opt/scripts/migrate.sh", "-wait",
+                 "tcp://localhost:5432", "-timeout", "15s",
                  "--", "flyway"]
 
   db:
