@@ -1,43 +1,7 @@
-version: '3.1'
+version: '3.7'
 services:
 
   announcer:
     build:
       context: .
       dockerfile: Dockerfile
-    depends_on:
-      - db-init
-    environment:
-      - PGHOST=db
-      - PGUSER=${PGUSER}
-      - PGPORT=${PGPORT}
-      - PGPASSWORD=${PGPASSWORD}
-      - PGDATABASE=${PGDATABASE}
-      - DEBUG=${DEBUG}
-    entrypoint: ["bash", "start_server.sh"]
-
-  db-init:
-    image: boxfuse/flyway:5.2.4
-    depends_on:
-       - db
-    environment:
-      - PGUSER=${PGUSER}
-      - PGPASSWORD=${PGPASSWORD}
-      - PGDATABASE=${PGDATABASE}
-    volumes:
-      - ./db/migrations:/opt/migrations
-      - ./db/scripts:/opt/scripts
-    entrypoint: ["bash", "/opt/scripts/migrate.sh", "-wait",
-                 "tcp://localhost:5432", "-timeout", "15s",
-                 "--", "flyway"]
-
-  db:
-    image: postgres:9.6
-    environment:
-      - POSTGRES_USER=${PGUSER}
-      - POSTGRES_PASSWORD=${PGPASSWORD}
-      - POSTGRES_DB=${PGDATABASE}
-    ports:
-      - 5432:5432
-    volumes:
-      - ./db/data:/var/lib/postgresql/data
