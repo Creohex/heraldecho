@@ -1,11 +1,13 @@
-FROM python:3.7.2-slim
+FROM python:3.11.7-slim
 
-COPY ./requirements.txt /
+WORKDIR /code
+RUN pip install --upgrade pip && pip install poetry
 
-RUN pip install --trusted-host pypi.python.org -r ./requirements.txt
+# Avoid existing bug where poetry installs dependencies into a wrong directory:
+RUN poetry config virtualenvs.create false
 
-COPY ./app/* /app/
+COPY poetry.lock pyproject.toml ./
+RUN poetry install
+COPY ./ ./
 
-WORKDIR /app
-
-CMD ["python", "app.py"]
+ENTRYPOINT ["python", "./heraldecho/main.py"]

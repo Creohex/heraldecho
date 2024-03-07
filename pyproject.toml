@@ -1,0 +1,14 @@
+[tool.poetry]
+name = "heraldecho"
+version = "0.1.0"
+description = "Configure periodic announcements in a multitude of ways"
+authors = ["Creohex <paradise.source@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+requests = "^2.31.0"
+schedule = "^1.2.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
