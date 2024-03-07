@@ -8,6 +8,7 @@ RUN poetry config virtualenvs.create false
 
 COPY poetry.lock pyproject.toml ./
 RUN poetry install
-COPY ./ ./
+COPY ./heraldecho ./heraldecho
+COPY ./config.json ./
 
 ENTRYPOINT ["python", "./heraldecho/main.py"]
