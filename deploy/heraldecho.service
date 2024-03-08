@@ -1,0 +1,14 @@
+[Unit]
+Description=Periodic announcements service
+Requires=docker.service
+After=docker.service
+
+[Service]
+Type=simple
+WorkingDirectory=/<...>/heraldecho/
+ExecStart=/usr/local/bin/docker-compose up
+Restart=always
+RestartSec=60s
+
+[Install]
+WantedBy=multi-user.target
