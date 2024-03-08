@@ -5,6 +5,8 @@ import requests
 import schedule
 import time
 from datetime import datetime
+
+import constants
 from models import Configuration
 
 
@@ -27,6 +29,7 @@ if __name__ == "__main__":
 
     Configuration().load()
     schedule.clear()
+
     for job in Configuration().jobs:
         p(f"Scheduling job: {str(job)}, freq: {job.frequency}")
         schedule.every(job.frequency).hours.do(handler, job.tag, job.hook, job.message)
@@ -34,4 +37,4 @@ if __name__ == "__main__":
     p("Running...")
     while True:
         schedule.run_pending()
-        time.sleep(1)
+        time.sleep(constants.SCHEDULER_CYCLE_SECONDS)
