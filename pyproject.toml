@@ -8,6 +8,7 @@ authors = ["Creohex <paradise.source@gmail.com>"]
 python = "^3.11"
 requests = "^2.31.0"
 schedule = "^1.2.1"
+jsonschema = "^4.21.1"
 
 [build-system]
 requires = ["poetry-core"]
