@@ -32,7 +32,7 @@ if __name__ == "__main__":
 
     for job in Configuration().jobs:
         p(f"Scheduling job: {str(job)}, freq: {job.frequency}")
-        schedule.every(job.frequency).hours.do(handler, job.tag, job.hook, job.message)
+        schedule.every(job.frequency).seconds.do(handler, job.tag, job.hook, job.message)
 
     p("Running...")
     while True:

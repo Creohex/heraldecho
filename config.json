@@ -1,0 +1,8 @@
+[
+  {
+    "frequency": 3200,
+    "hook": "https://discord.com/api/webhooks/1215347622441914460/UN5rfAlsg_nvjGH7xug_hPEv0kc1q45xIvG5UL5SwnT-10fdHZ4J3Q8dV1rM5Yc92a21",
+    "message": "hourly thingie...",
+    "tag": "test_thingie"
+  }
+]
