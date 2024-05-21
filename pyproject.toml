@@ -6,7 +6,7 @@ authors = ["Creohex <paradise.source@gmail.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.11"
-requests = "^2.31.0"
+requests = "^2.32.0"
 schedule = "^1.2.1"
 jsonschema = "^4.21.1"
 
