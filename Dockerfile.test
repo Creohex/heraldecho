@@ -8,8 +8,9 @@ RUN poetry config virtualenvs.create false
 
 COPY poetry.lock pyproject.toml ./
 RUN poetry lock
-RUN poetry install --no-root --only=main
+RUN poetry install --no-root --with=dev
 COPY ./heraldecho ./heraldecho
+COPY ./tests ./tests
 COPY ./config.json ./
 
-ENTRYPOINT ["python", "./heraldecho/main.py"]
+ENTRYPOINT ["python", "-m", "pytest", "tests/", "-v"]

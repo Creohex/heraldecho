@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  heraldecho-test:
+    build:
+      context: .
+      dockerfile: Dockerfile.test
+    volumes:
+      - ./tests:/code/tests:ro
+      - ./heraldecho:/code/heraldecho:ro
+    environment:
+      - PYTHONPATH=/code
